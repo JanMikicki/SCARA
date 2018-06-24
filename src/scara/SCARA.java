@@ -35,11 +35,13 @@ public class SCARA extends Applet implements ActionListener, KeyListener {
     private Transform3D przes1 = new Transform3D();
     private Transform3D obrot2 = new Transform3D();
     private Transform3D przes2 = new Transform3D();
+    private Transform3D przes3 = new Transform3D();
     private TransformGroup ramie_1_TG = new TransformGroup();
     private TransformGroup ramie_2_TG = new TransformGroup();
     private TransformGroup trzon_TG = new TransformGroup();
     private float kat1 = 0.0f;
     private float kat2 = 0.0f;
+    private float wys = 0.0f;
 
     private SimpleUniverse u;
     
@@ -238,6 +240,15 @@ public class SCARA extends Applet implements ActionListener, KeyListener {
             ramie_2_TG.setTransform(obrot2);
     }
     
+    public void podniesienieChwytak(float krok)
+    {
+        //if(wys > -0.17f && wys < 0.24f){
+            wys += krok;
+            przes3.setTranslation(new Vector3f(0.25f,-0.1f+wys,0.0f));
+            trzon_TG.setTransform(przes3);
+        //}
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here       
        new MainFrame(new SCARA(), 700, 700);
@@ -267,6 +278,12 @@ public class SCARA extends Applet implements ActionListener, KeyListener {
         }
     if(e.getKeyCode() == KeyEvent.VK_E){
             Joint_2_Rot(-0.02f);
+        }
+    if(e.getKeyCode() == KeyEvent.VK_W && wys < 0.24f){
+            podniesienieChwytak(0.01f);
+        }
+    if(e.getKeyCode() == KeyEvent.VK_S && wys > -0.17f){
+           podniesienieChwytak(-0.01f);
         }
     }
 }
