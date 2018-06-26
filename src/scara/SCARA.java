@@ -25,11 +25,16 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.geometry.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
 
 public class SCARA extends Applet implements ActionListener, KeyListener {
     
     private Button reset = new Button("Reset view");
+    private Button poczatek = new Button("Reset robot");
+    private Button poczatekNauki = new Button("Rozpocznij naukę");
+    private Button koniecNauki = new Button("Zakończ naukę");
+    private Button odtworzTrase = new Button("Odtwórz zapisaną trasę");
     
     private Transform3D obrot1 = new Transform3D();
     private Transform3D przes1 = new Transform3D();
@@ -79,6 +84,28 @@ public class SCARA extends Applet implements ActionListener, KeyListener {
     add("South", p);
     reset.addActionListener(this);
     reset.addKeyListener(this);
+    
+    p.add(poczatek);
+    add("South", p);
+    poczatek.addActionListener(this);
+    poczatek.addKeyListener(this);
+    
+    
+        p.add(poczatekNauki);
+        add("South",p);
+        poczatekNauki.addActionListener(this);
+        poczatekNauki.addKeyListener(this);
+        
+        p.add(koniecNauki);
+        add("South",p);
+        koniecNauki.addActionListener(this);
+        koniecNauki.addKeyListener(this);
+        
+        p.add(odtworzTrase);
+        add("South",p);
+        odtworzTrase.addActionListener(this);
+        odtworzTrase.addKeyListener(this);
+        
     
     add(BorderLayout.CENTER, canvas3D);
                 
@@ -260,7 +287,27 @@ public class SCARA extends Applet implements ActionListener, KeyListener {
             Transform3D reset_kamery = new Transform3D();
             reset_kamery.set(new Vector3f(0.0f, 0.3f, 3.0f));
             u.getViewingPlatform().getViewPlatformTransform().setTransform(reset_kamery);
-        }    
+        }
+        else if(e.getSource() == poczatek){
+            kat1 = 0.0f; 
+            kat2 = 0.0f; 
+            wys = 0.0f;
+            
+            //USTAWIENIE WSZYSTKICH SKŁADOWYCH ROBOTA W POZYCJI STARTOWEJ
+            obrot1.rotY(kat1);  
+            przes1.setTranslation(new Vector3f(0.2f,0.25f,0.0f)); 
+            obrot1.mul(przes1); 
+            ramie_1_TG.setTransform(obrot1);
+            obrot2.rotY(kat2);  
+            przes2.setTranslation(new Vector3f(0.21f,0.1f,0.0f)); 
+            obrot2.mul(przes2); 
+            ramie_2_TG.setTransform(obrot2);
+            przes3.setTranslation(new Vector3f(0.25f,-0.1f,0.0f)); 
+            trzon_TG.setTransform(przes3);
+        }
+        else if(e.getSource() == poczatekNauki){
+            Vector pamiec = new Vector();
+        }
     } 
     public void keyReleased(KeyEvent e){}   
     public void keyTyped(KeyEvent e){}
